@@ -1,0 +1,31 @@
+email:abandon_cuisine,#F0F8FF
+email:autre_campagne,#FAEBD7
+kiosque:devis termine,#00FFFF
+kiosque:devis_supprime,#7FFFD4
+kiosque:devis_valide,#F0FFFF
+magasin:demande devis,#F5F5DC
+magasin:devis termine,#FFE4C4
+magasin:devis_valide,#000000
+magasin:modification dev,#FFEBCD
+magasin:paiement acompte projet cuisine,#0000FF
+magasin:paiement autre achat,#8A2BE2
+magasin:paiement produit cuisine,#A52A2A
+magasin:paiement total projet cuisine,#DEB887
+magasin:validation devis,#5F9EA0
+mobile:consultation cuisine,#7FFF00
+mobile:consultation produit cuisine,#D2691E
+mobile:home page lm,#FF7F50
+mobile:inscription,#6495ED
+mobile:recherche,#FFF8DC
+web:consultation cuisine,#DC143C
+web:consultation produit cuisine,#00FFFF
+web:devis termine,#00008B
+web:devis_supprime,#008B8B
+web:devis_valide,#B8860B
+web:home page lm,#A9A9A9
+web:inscription,#006400
+web:paiement autre achat,#A9A9A9
+web:paiement produit cuisine,#BDB76B
+web:recherche,#8B008B
+Rien,#556B2F
+EndForced,#FF8C00
