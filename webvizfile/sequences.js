@@ -5,7 +5,7 @@ var radius = Math.min(width, height) / 2;
 
 // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
 var b = {
-  w: 75, h: 30, s: 3, t: 10
+  w: 200, h: 60, s: 6, t: 20
 };
 
 // Mapping of step names to colors.
@@ -18,6 +18,41 @@ var b = {
   "end": "#bbbbbb"
 };*/
 
+ var colors ={"email:abandon_cuisine": "#950a95",
+ "email:autre_campagne": "#9f149f",
+ "kiosque:devis termine": "#0a6e0a",
+ "kiosque:devis_supprime": "#147814",
+ "kiosque:devis_valide": "#1e821e",
+ "magasin:demande devis": "#289aff",
+ "magasin:devis termine": "#32a4ff",
+ "magasin:devis_supprime": "#3caeff",
+ "magasin:devis_valide": "#46b8ff",
+ "magasin:modification dev": "#50c2ff",
+ "magasin:paiement acompte projet cuisine": "#5accff",
+ "magasin:paiement autre achat": "#64d6ff",
+ "magasin:paiement produit cuisine": "#6ee0ff",
+ "magasin:paiement total projet cuisine": "#78eaff",
+ "magasin:validation devis": "#82f4ff",
+ "mobile:consultation cuisine": "#ffg8e6",
+ "mobile:consultation produit cuisine": "#ffg8f0",
+ "mobile:home page lm": "#ffg8fa",
+ "mobile:inscription": "#ffg8dc",
+ "mobile:recherche": "#ffg8dc",
+ "web:consultation cuisine": "#2c952c",
+ "web:consultation produit cuisine": "#369f36",
+ "web:devis termine": "#40a940",
+ "web:devis_supprime": "#4ab34a",
+ "web:devis_valide": "#54bd54",
+ "web:home page lm": "#5ec75e",
+ "web:inscription": "#68d168",
+ "web:paiement autre achat": "#72db72",
+ "web:paiement produit cuisine": "#7ce57c",
+ "web:recherche": "#86ef86",
+ "Rien":"#556B2F",
+ "EndForced":"#FF8C00"
+ }
+
+
 /*var colors = {
     "CheckItem": "#5687d1",
     "Cart": "#7b615c",
@@ -26,7 +61,7 @@ var b = {
     "PlaceOrder": "#a173d1",
     "End": "#bbbbbb"
 };*/
-var colors = {
+/*var colors = {
     "a": "#5687d1",
     "b": "#7b615c",
     "c": "#de783b",
@@ -35,7 +70,7 @@ var colors = {
     "f": "#bbbbbb",
     'g': '#FFE4C4',
     'h': '#000000'
-};
+};*/
 
 
 /*var colors ={'Confirmation of receipt': '#F0F8FF',
@@ -78,6 +113,11 @@ var arc = d3.arc()
     .innerRadius(function(d) { return Math.sqrt(d.y0); })
     .outerRadius(function(d) { return Math.sqrt(d.y1); });
 
+
+var testCSV = d3.text("activity_color.csv",function(text){
+  d3.csvParseRows(text);
+});
+console.log(testCSV);
 // Use d3.text and d3.csvParseRows so that we do not need to have a header
 // row, and can receive the csv as an array of arrays.
 d3.text("sequences-50.csv", function(text) {
@@ -195,13 +235,14 @@ function mouseleave(d) {
 function initializeBreadcrumbTrail() {
   // Add the svg area.
   var trail = d3.select("#sequence").append("svg:svg")
-      .attr("width", width)
+      .attr("width", 1500)
       .attr("height", 50)
       .attr("id", "trail");
   // Add the label at the end, for the percentage.
   trail.append("svg:text")
     .attr("id", "endlabel")
-    .style("fill", "#000");
+    .style("fill", "balck");
+
 }
 
 // Generate a string that describes the points of a breadcrumb polygon.
@@ -241,6 +282,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
       .attr("y", b.h / 2)
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
+      .attr("fill", "black")
       .text(function(d) { return d.data.name; });
 
   // Merge enter and update selections; set position for all nodes.
@@ -266,7 +308,7 @@ function drawLegend() {
 
   // Dimensions of legend item: width, height, spacing, radius of rounded rect.
   var li = {
-    w: 75, h: 30, s: 3, r: 3
+    w: 200, h: 60, s: 6, r: 6
   };
 
   var legend = d3.select("#legend").append("svg:svg")
@@ -292,6 +334,7 @@ function drawLegend() {
       .attr("y", li.h / 2)
       .attr("dy", "0.35em")
       .attr("text-anchor", "middle")
+      .style("font-size", "14px")
       .text(function(d) { return d.key; });
 }
 
@@ -311,6 +354,7 @@ function toggleLegend() {
 function buildHierarchy(csv) {
   var root = {"name": "root", "children": []};
   for (var i = 0; i < csv.length; i++) {
+
     var sequence = csv[i][0];
     var size = +csv[i][1];
     if (isNaN(size)) { // e.g. if this is a header row
@@ -318,30 +362,41 @@ function buildHierarchy(csv) {
     }
     var parts = sequence.split("-");
     var currentNode = root;
+
     for (var j = 0; j < parts.length; j++) {
-      var children = currentNode["children"];
+
+      var lastChildren = new Array();
+      if("children" in currentNode){
+          children = currentNode["children"];
+          lastChildren = children;
+      }else{
+         children = lastChildren;
+      }
+
+
       var nodeName = parts[j];
       var childNode;
       if (j + 1 < parts.length) {
-   // Not yet at the end of the sequence; move down the tree.
- 	var foundChild = false;
- 	for (var k = 0; k < children.length; k++) {
- 	  if (children[k]["name"] == nodeName) {
- 	    childNode = children[k];
- 	    foundChild = true;
- 	    break;
- 	  }
- 	}
-  // If we don't already have a child node for this branch, create it.
- 	if (!foundChild) {
- 	  childNode = {"name": nodeName, "children": []};
- 	  children.push(childNode);
- 	}
- 	currentNode = childNode;
+         // Not yet at the end of the sequence; move down the tree.
+    	var foundChild = false;
+ 	    for (var k = 0; k < children.length; k++) {
+ 	        if (children[k]["name"] == nodeName) {
+ 	            childNode = children[k];
+ 	            foundChild = true;
+ 	            break;
+ 	        }
+ 	    }
+        // If we don't already have a child node for this branch, create it.
+ 	    if (!foundChild) {
+ 	        childNode = {"name": nodeName, "children": []};
+ 	        children.push(childNode);
+ 	    }
+ 	    currentNode = childNode;
       } else {
- 	// Reached the end of the sequence; create a leaf node.
- 	childNode = {"name": nodeName, "size": size};
- 	children.push(childNode);
+ 	    // Reached the end of the sequence; create a leaf node.
+ 	    childNode = {"name": nodeName, "size": size};
+ 	    console.log(root["children"]);
+ 	    children.push(childNode);
       }
     }
   }
