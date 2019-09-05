@@ -1,0 +1,35 @@
+{"nodes":[
+  {"node":"web:recherche","size":2,"countPercentageNonTarget":0.1342234715390021,"occurrenceIdClient":1},
+  {"node":"mobile:recherche","size":4,"countPercentageNonTarget":0.1712795828319294,"occurrenceIdClient":1},
+  {"node":"kiosque:devis termine","size":1,"countPercentageNonTarget":0.1541501976284585,"occurrenceIdClient":1},
+  {"node":"web:home page lm","size":3,"countPercentageNonTarget":0.1734281868871371,"occurrenceIdClient":2},
+  {"node":"magasin:paiement autre achat","size":11,"countPercentageNonTarget":0.9929948253630793,"occurrenceIdClient":2},
+  {"node":"web:inscription","size":3,"countPercentageNonTarget":0.2966233766233766,"occurrenceIdClient":3},
+  {"node":"magasin:paiement total projet cuisine","size":1,"countPercentageNonTarget":0.10150753768844221,"occurrenceIdClient":1},
+  {"node":"magasin:paiement acompte projet cuisine","size":3,"countPercentageNonTarget":0.11644318983768526,"occurrenceIdClient":3},
+  {"node":"web:devis termine","size":1,"countPercentageNonTarget":0.2222222222222222,"occurrenceIdClient":1},
+  {"node":"mobile:consultation cuisine","size":2,"countPercentageNonTarget":0.1509433962264151,"occurrenceIdClient":1}
+
+],
+  "edges":[
+    {"from":"mobile:consultation cuisine","to":"mobile:recherche","delay":26334,"frequency":1},
+    {"from":"mobile:recherche","to":"magasin:paiement total projet cuisine","delay":171448100,"frequency":1},
+    {"from":"mobile:recherche","to":"mobile:recherche","delay":364137900,"frequency":1},
+    {"from":"web:home page lm","to":"magasin:paiement autre achat","delay":67104253,"frequency":1},
+    {"from":"magasin:paiement autre achat","to":"mobile:consultation cuisine","delay":774000,"frequency":1},
+    {"from":"web:home page lm","to":"web:home page lm","delay":541144,"frequency":1},
+    {"from":"mobile:recherche","to":"web:devis termine","delay":321580,"frequency":1},
+    {"from":"magasin:paiement total projet cuisine","to":"magasin:paiement autre achat","delay":1,"frequency":1},
+    {"from":"web:devis termine","to":"mobile:recherche","delay":39768000,"frequency":1},
+    {"from":"web:recherche","to":"web:recherche","delay":10071,"frequency":1},
+    {"from":"web:home page lm","to":"web:recherche","delay":5305662,"frequency":1},
+    {"from":"kiosque:devis termine","to":"mobile:recherche","delay":92240420,"frequency":1},
+    {"from":"magasin:paiement autre achat","to":"magasin:paiement autre achat","delay":72982500,"frequency":8},
+    {"from":"web:inscription","to":"kiosque:devis termine","delay":249917531,"frequency":1},
+    {"from":"web:recherche","to":"magasin:paiement acompte projet cuisine","delay":53408416,"frequency":1},
+    {"from":"mobile:consultation cuisine","to":"mobile:consultation cuisine","delay":27053,"frequency":1},
+    {"from":"web:inscription","to":"web:home page lm","delay":1111244,"frequency":2},
+    {"from":"mobile:recherche","to":"magasin:paiement autre achat","delay":80400613,"frequency":1},
+    {"from":"magasin:paiement autre achat","to":"magasin:paiement acompte projet cuisine","delay":133124500,"frequency":2}
+  ]
+}
