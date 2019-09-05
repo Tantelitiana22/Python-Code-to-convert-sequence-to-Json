@@ -50,5 +50,6 @@ if __name__ == "__main__":
     print("-----jsonWritter---------")
     print(jsonStyle)
     print("---------------------------")
-    jsonWritter = pd.DataFrame(jsonStyle)
-    jsonWritter.to_json("D:/DATA/Python-Code-to-convert-sequence-to-Json/webvizfile/result.json", index=False,orient='table')
+
+    with open('../../webvizfile/result.json', 'w') as fp:
+        json.dump(jsonStyle, fp)

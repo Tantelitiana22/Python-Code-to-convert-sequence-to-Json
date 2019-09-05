@@ -59,7 +59,7 @@ def buildHierarchy(csv: DataFrame):
                     currentNode = childNode
             else:
                 ##Reached the end of the sequence; create a leaf node.
-                childNode = {"name": nodeName, "size": size}
+                childNode = {"name": nodeName, "size": int(size)}
                 children.append(childNode)
     return root
 
