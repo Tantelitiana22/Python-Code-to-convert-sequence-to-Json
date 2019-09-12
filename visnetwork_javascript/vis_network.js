@@ -10,22 +10,34 @@ slider.oninput = function() {
     draw();
 };
 
+function isNext(currentNode,edge){
+    for(let i=0;i<edge.length;i++){
+        if(edge[i]["from"]===currentNode){
+            return true;
+        }
+    }
+    return false;
+}
+function isLast(currentNode,edge){
+    for(let i=0;i<edge.length;i++){
+        if(edge[i]["to"]===currentNode){
+            return true;
+        }
+    }
+    return false;
+}
+
 function dataTransform(dataJson,valueFilter){
     console.log(typeof valueFilter)
     let  vertex = [];
     let  edges = [];
     let imageFile ="";
-    let inEdges =[];
-    let outEdges=[];
 
     for(let i=0;i<dataJson.edges.length;i++){
         let edge = dataJson.edges[i];
 
         if(edge["size"]>=parseFloat(valueFilter)){
             edges.push({from:edge["from"],to:edge["to"],label:edge["size"].toString()});
-        }else{
-            inEdges.push(edge["from"]);
-            outEdges.push(edge["to"]);
         }
     }
 
@@ -51,10 +63,9 @@ function dataTransform(dataJson,valueFilter){
                 imageFile = "ImageData/web.jpg";
         }
 
-        if(!(node in inEdges || node in outEdges)){
+        if(isNext(node,edges) || isLast(node,edges)){
             vertex.push({id:node,image:imageFile,label:node,size:size/12,shape:"image"});
         }
-
     }
 
 
