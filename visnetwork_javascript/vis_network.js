@@ -1,8 +1,34 @@
-function dataTransform(dataJson){
+
+let slider = document.getElementById("myRange");
+let output = document.getElementById("demo");
+output.innerHTML = slider.value;
+let valueFilter = slider.value;
+
+slider.oninput = function() {
+    output.innerHTML = this.value;
+    valueFilter=this.value;
+    draw();
+};
+
+function dataTransform(dataJson,valueFilter){
+    console.log(typeof valueFilter)
     let  vertex = [];
     let  edges = [];
     let imageFile ="";
-    console.log(dataJson);
+    let inEdges =[];
+    let outEdges=[];
+
+    for(let i=0;i<dataJson.edges.length;i++){
+        let edge = dataJson.edges[i];
+
+        if(edge["size"]>=parseFloat(valueFilter)){
+            edges.push({from:edge["from"],to:edge["to"],label:edge["size"].toString()});
+        }else{
+            inEdges.push(edge["from"]);
+            outEdges.push(edge["to"]);
+        }
+    }
+
     for(let i=0;i<dataJson.nodes.length;i++){
 
         let node = dataJson.nodes[i]["node"];
@@ -25,13 +51,12 @@ function dataTransform(dataJson){
                 imageFile = "ImageData/web.jpg";
         }
 
-        vertex.push({id:node,image:imageFile,label:node,size:size/12,shape:"image"})
+        if(!(node in inEdges || node in outEdges)){
+            vertex.push({id:node,image:imageFile,label:node,size:size/12,shape:"image"});
+        }
+
     }
 
-    for(let i=0;i<dataJson.edges.length;i++){
-        let edge = dataJson.edges[i];
-        edges.push({from:edge["from"],to:edge["to"],label:edge["size"].toString()})
-    }
 
     return {"nodes":vertex,"edges":edges};
 }
@@ -62,7 +87,8 @@ function draw() {
 
     let json = $.getJSON("MarkovResult.json")
         .done(function(dataJson){
-            let result =  dataTransform(dataJson);
+
+            let result =  dataTransform(dataJson,valueFilter);
             let data = {
                 nodes: result.nodes,
                 edges: result.edges
